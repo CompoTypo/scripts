@@ -42,6 +42,7 @@ echo '</html>' >> index.html
 
 # light css template
 echo "#myCanvas {" >> styles.css
+echo "  margin: 0;" >> styles.css
 echo "  /*input canvas styles here*/" >> styles.css
 echo "}" >> styles.css
 echo "/*make other styles as you want*/" >> styles.css
@@ -52,4 +53,6 @@ echo '  var c = document.getElementById("myCanvas");' >> script.js
 echo '  c.width = window.innerWidth;' >> script.js
 echo '  c.height = window.innerHeight;' >> script.js
 echo '  var ctx = c.getContext("2d");' >> script.js
+echo '  ctx.font = "30px Arial";' >> script.js
+echo '  ctx.fillText("Hello World", 10, 50);' >> script.js
 echo '})();' >> script.js
