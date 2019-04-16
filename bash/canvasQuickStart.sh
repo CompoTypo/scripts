@@ -1,5 +1,4 @@
 #!/bin/bash
-# websiteStart.sh
 # basic website template
 
 #let script exit if a command fails
