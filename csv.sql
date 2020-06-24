@@ -1,0 +1,7 @@
+DROP SCHEMA IF EXISTS csv;
+CREATE SCHEMA csv;
+
+USE csv;
+
+DROP TABLE IF EXISTS boston;
+CREATE TABLE boston (
