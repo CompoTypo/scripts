@@ -20,7 +20,7 @@ def buildTableData(csv, f, attrs, out):
         i = 0
         for col in r.split(','):
             val = col.replace(' ', '_').strip('\"\n')
-            if re.match(r'^\d+$', val):
+            if re.match(r'^([+-]?[1-9]\d*|0)$', val):
                 types[i] = 'INTEGER'
             elif re.match(r'[+-]?([0-9]*[.])?[0-9]+', val):
                 types[i] = 'FLOAT'
@@ -35,6 +35,7 @@ def buildTableData(csv, f, attrs, out):
 
 def buildTable(f, out):
     f_name = re.search(r'[ \w-]+?(?=\.)', f).group(0)
+    
     out.write('DROP TABLE IF EXISTS ' + f_name + ';\n')
     out.write('CREATE TABLE ' + f_name + ' (\n')
     csv = open(f, 'r')
@@ -59,32 +60,25 @@ def buildTable(f, out):
     writeTableData(data, out)
 
 
-def getFileName(unreadable):
-    return input('Enter a better filename for ' + unreadable + ' the schema file: ')
+def requestNewFileName(bad_file_name):
+    return input('Enter a better filename for ' + bad_file_name + ' the schema file: ')
 
 
-def readDir(path, out):
+def readDirForCSV(path, out):
     for dirpath, subdirs, files in os.walk(path):
         for dir in subdirs:
-            readDir(dirpath + dir, out)
+            readDirForCSV(dirpath + dir, out)
         for f in files:
-            if f[-4:] == '.csv':
+            if f[-4:] == '.csv' or f[-5:] == '.data':
                 buildTable(path + f, out)
 
 
-def createSchema(dir):
-    out = ''
-    if dir == './':
-        file_name = getFileName(dir)
-        out = open('./' + file_name + '.sql', 'w+')
-        out.write('DROP SCHEMA IF EXISTS ' + file_name + ';\n')
-        out.write('CREATE SCHEMA ' + file_name + ';\n\n')
-        out.write('USE ' + file_name + ';\n\n')
-    else:
-        out = open('./' + dir + '.sql', 'w+')
-        out.write('DROP SCHEMA IF EXISTS ' + dir + ';\n')
-        out.write('CREATE SCHEMA ' + dir + ';\n\n')
-        out.write('USE ' + dir + ';\n\n')
+def writeSchema(dir_name):
+    print(dir_name)
+    out = open(dir_name + '.sql', 'w+')
+    out.write('DROP SCHEMA IF EXISTS ' + dir_name + ';\n')
+    out.write('CREATE SCHEMA ' + dir_name + ';\n\n')
+    out.write('USE ' + dir_name + ';\n\n')
     return out
 
 
@@ -93,8 +87,17 @@ if __name__ == "__main__":
         print('ERR format: python3 csvToSql.py <path/to/csv>')
         exit(1)
 
-    if os.path.isfile(sys.argv[1]):
-        buildTable(sys.argv[1], getFileName(sys.argv[1]))
-    elif os.path.isdir(sys.argv[1]):
-        outfile = createSchema(sys.argv[1])
-        readDir(sys.argv[1], outfile)
+    print(sys.argv)
+    # if the user picks a file, we just need a table
+    print(os.getcwd() + '/' + sys.argv[1])
+    if os.path.exists(os.getcwd() + '/' + sys.argv[1]):
+        if os.path.isfile(os.getcwd() + '/' + sys.argv[1]):
+            out_file = open(sys.argv[1].split('.', 1)[0] + '.sql', 'w+')
+            buildTable(os.getcwd() + '/' + sys.argv[1], out_file)
+        elif sys.argv[1] == './':
+            outfile = writeSchema(os.path.basename(os.getcwd()))
+            readDirForCSV(os.getcwd(), outfile)
+        elif os.path.isdir(os.getcwd() + '/' + sys.argv[1]):
+            outfile = writeSchema(os.path.basename(
+                os.getcwd() + '/' + sys.argv[1]))
+            readDirForCSV(os.getcwd() + '/' + sys.argv[1], outfile)
