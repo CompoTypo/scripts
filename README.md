@@ -43,6 +43,14 @@ Simple script to document c code
 
 Fully overwrite file by truncation, save, and delete
 
+## romanNumerizer.py
+
+Converts a number to a roman numeral
+
 ## speech-to-text.py
 
-Simple text to speach using google speech api
+Simple speech to text using google speech api
+
+## text-to-speech.py
+
+Text to speech app for listening to documents (varies highly with your system)  
