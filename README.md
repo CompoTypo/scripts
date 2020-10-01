@@ -1,9 +1,5 @@
 # PERSONAL SCRIPTS
 
-## asm.sh
-
-Assembles and links an assembly file using linux commands
-
 ## autosshkey.sh
 
 Gen and copy public keys
@@ -29,6 +25,10 @@ Cleans a CSV file based.
 
 Converts a csv to an sql table.  
 A directory of csvs to an sql schema.  
+
+## docScraper.py
+
+Quick script to grap text from encoded document types
 
 ## genReadme.py
 
