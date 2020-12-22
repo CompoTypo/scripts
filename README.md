@@ -1,5 +1,9 @@
 # PERSONAL SCRIPTS
 
+## DISCLAIMER
+
+These all originated from my own contexts and little went to making these universally usable. That being said, all of these are quick enough reads to modify yourself if you were to use my software nic-nacs
+
 ## autosshkey.sh
 
 Gen and copy public keys
