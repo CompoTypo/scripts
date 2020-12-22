@@ -1,10 +1,17 @@
 from PIL import Image, ImageFilter
 from math import ceil
+import sys
+
+if len(sys.argv) != 3:
+    print('FORMAT ERR: $ python ImagePixerlizer.py <jpg|png> <pixelDensity>', file=sys.stderr)
+    exit()
+
 # Read image
-im = Image.open('FB_IMG.png')
+print(sys.argv[1])
+im = Image.open(sys.argv[1])
 im.show()
 
-BlockDensity = 6  # pixels
+BlockDensity = int(sys.argv[2])  # pixels
 x, y = im.size
 num_x_blocks = ceil(x / BlockDensity)
 num_y_blocks = ceil(y / BlockDensity)
