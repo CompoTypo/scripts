@@ -34,6 +34,10 @@ Quick script to grap text from encoded document types
 
 Autogenerates a templete readme
 
+## ImagePixelizer.py
+
+Short script 
+
 ## outline.py
 
 Work In Progress
