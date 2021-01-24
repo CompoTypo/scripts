@@ -1,6 +1,6 @@
 #!/bin/sh
 
-var="boobs and butts"
+var="ayy and oops"
 
 echo "${var%% *}"
 echo "${var##* }"
