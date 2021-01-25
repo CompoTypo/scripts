@@ -2,4 +2,6 @@
 !.gitignore
 !*.sh
 !*.py
+!*.ts
+!*.js
 !README.md
