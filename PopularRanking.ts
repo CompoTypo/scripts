@@ -34,7 +34,7 @@ function countBest(left_most: number[]) {
                 break;
             }
         }
-        if (cont_flag) {
+        if (!cont_flag) {
             cont_flag = false;
             continue;
         }

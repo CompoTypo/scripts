@@ -7,39 +7,35 @@ if len(sys.argv) != 3:
     exit()
 
 # Read image
-print(sys.argv[1])
 im = Image.open(sys.argv[1])
 im.show()
 
 BlockDensity = int(sys.argv[2])  # pixels
 x, y = im.size
-num_x_blocks = ceil(x / BlockDensity)
-num_y_blocks = ceil(y / BlockDensity)
+[num_x_blocks, num_y_blocks] = [ceil(x / BlockDensity), ceil(y / BlockDensity)]
 temp_im = im.resize((num_x_blocks * BlockDensity, num_y_blocks * BlockDensity))
 px = temp_im.load()
 
 for i in range(num_x_blocks):
     for j in range(num_y_blocks):
         # each large block (new pixel)
+        cSum = [0, 0, 0]
+        pCount = 0
 
-        colorSum = [0, 0, 0]
-        pixelCounter = 0
         for k in range(i*BlockDensity, i*BlockDensity + BlockDensity):
             for l in range(j*BlockDensity, j*BlockDensity + BlockDensity):
                 # for each pixel in each block
-                for col_i in range(len(colorSum)):
-                    colorSum[col_i] += px[k, l][col_i]
-                 
-                print(colorSum)
-                pixelCounter += 1
+                for col_i in range(len(cSum)):
+                    cSum[col_i] += px[k, l][col_i]
 
-        blockColorR = ceil(colorSum[0] / pixelCounter)
-        blockColorG = ceil(colorSum[1] / pixelCounter)
-        blockColorB = ceil(colorSum[2] / pixelCounter)
-        blockColor = (blockColorR,blockColorG,blockColorB)
+                pCount += 1
+
+        blockColor = (ceil(cSum[0] / pCount),
+                      ceil(cSum[1] / pCount),
+                      ceil(cSum[2] / pCount))
         for k in range(i*BlockDensity, i*BlockDensity + BlockDensity):
             for l in range(j*BlockDensity, j*BlockDensity + BlockDensity):
-                px[k,l] = blockColor
+                px[k, l] = blockColor
 # Display image
 temp_im.show()
 
@@ -50,4 +46,4 @@ im_sharp.save('image_sharpened.png', 'PNG')
 
 # Viewing EXIF data embedded in image
 #exif_data = im._getexif()
-#print(exif_data)
+# print(exif_data)
